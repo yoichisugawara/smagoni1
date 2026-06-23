@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>スマゴニ (SmaGoni)</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- PWA用のマニフェストファイル（ステップ②で作成） -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <!-- 1. 自作スプラッシュ画面（起動時に一瞬表示される画面） -->
+    <div id="splash-screen" class="splash-container">
+        <div class="splash-logo">
+            <span class="logo-icon">📐</span>
+            <h1>スマゴニ</h1>
+            <p>Smart GonioMeter</p>
+        </div>
+    </div>
+
+    <!-- アプリ全体のコンテナ -->
+    <div class="app-container">
+        
+        <!-- ヘッダー -->
+        <header>
+            <h2>スマゴニ 📐</h2>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main>
+            <!-- 2. 角度表示エリア（UDデザイン：超巨大文字） -->
+            <section class="angle-display-section">
+                <div class="angle-box">
+                    <span id="current-angle">0</span><span class="degree-unit">°</span>
+                </div>
+                <div class="mode-badge" id="current-mode-badge">リアルタイム計測モード</div>
+            </section>
+
+            <!-- 操作ボタンエリア -->
+            <section class="control-section">
+                <button id="btn-hold" class="btn btn-primary">角度をホールド (固定)</button>
+                <button id="btn-save" class="btn btn-success" disabled>計測結果を記録</button>
+            </section>
+
+            <!-- 3. 関節選択・ナビゲーションエリア -->
+            <section class="navi-section">
+                <h3>【関節・運動方向の選択】</h3>
+                <div class="select-group">
+                    <select id="select-category" class="form-select">
+                        <option value="">-- 部位を選択 --</option>
+                        <option value="upper">上肢 (うで)</option>
+                        <option value="lower">下肢 (あし)</option>
+                    </select>
+                    
+                    <select id="select-joint" class="form-select" disabled>
+                        <option value="">-- 関節を選択 --</option>
+                    </select>
+
+                    <select id="select-movement" class="form-select" disabled>
+                        <option value="">-- 運動方向を選択 --</option>
+                    </select>
+                </div>
+
+                <!-- 学会基準の正確な医学表記表示エリア -->
+                <div id="medical-info-box" class="info-box hidden">
+                    <h4 id="info-title">肩関節：屈曲</h4>
+                    <p><strong>基本軸：</strong> <span id="info-base-axis">-</span></p>
+                    <p><strong>移動軸：</strong> <span id="info-move-axis">-</span></p>
+                    <p><strong>参考正常値：</strong> <span id="info-normal-value">-</span></p>
+                    
+                    <!-- 初学者のための「かみくだきヘルプ」トグル -->
+                    <button id="btn-help-toggle" class="btn-help-trigger">💡 触知のコツ・詳細ヘルプを表示</button>
+                    <div id="help-content-box" class="help-content hidden">
+                        <p id="info-help-text">ここに初学者向けの分かりやすい解説文が入ります。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. 履歴・CSV出力エリア -->
+            <section class="history-section">
+                <h3>【今回の計測履歴】</h3>
+                <div class="table-wrapper">
+                    <table id="history-table">
+                        <thead>
+                            <tr>
+                                <th>関節・動き</th>
+                                <th>角度</th>
+                                <th>日時</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-tbody">
+                            <!-- ここにJavaScriptで記録が追加されます -->
+                            <tr>
+                                <td colspan="3" class="empty-message">まだ記録はありません</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button id="btn-csv" class="btn btn-secondary">CSVファイルとして出力</button>
+            </section>
+        </main>
+
+        <!-- フッター（チュートリアル再表示ボタンなど） -->
+        <footer>
+            <button id="btn-tutorial-trigger" class="btn-text">❔ 使い方（チュートリアル）をみる</button>
+        </footer>
+    </div>
+
+    <!-- 5. チュートリアル用のポップアップ（初回起動時やボタンタップ時に表示） -->
+    <div id="tutorial-modal" class="modal-container hidden">
+        <div class="modal-content">
+            <h3>📐 スマゴニへようこそ！</h3>
+            <p>このアプリは、スマホの傾きセンサーを使って関節の可動域（ROM）をスマートに計測・記録できるアプリです。</p>
+            <ol>
+                <li>まずは画面の指示に従って<strong>「部位」「関節」「運動方向」</strong>を選びます。</li>
+                <li>学会基準の<strong>基本軸・移動軸</strong>が表示されるので、スマホの向きを合わせます。</li>
+                <li><strong>「角度をホールド」</strong>をタップすると、その時点の角度が固定されます。</li>
+                <li><strong>「計測結果を記録」</strong>を押すと、下の履歴テーブルに保存され、最後にCSVとしてまとめて書き出せます。</li>
+            </ol>
+            <button id="btn-tutorial-close" class="btn btn-primary">閉じてアプリを始める</button>
+        </div>
+    </div>
+
+    <!-- 関節のマスターデータファイル（ステップ②で作成） -->
+    <script src="romData.js"></script>
+    <!-- アプリのメインプログラム（ステップ②で作成） -->
+    <script src="app.js"></script>
+</body>
+</html>

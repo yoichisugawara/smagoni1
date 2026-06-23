@@ -1,0 +1,283 @@
+/* 基本設定とリセット */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #1a202c;
+    line-height: 1.5;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* 1. 自作スプラッシュ画面 */
+.splash-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out, visibility 0.5s;
+}
+
+.splash-logo {
+    text-align: center;
+}
+
+.logo-icon {
+    font-size: 5rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.splash-logo h1 {
+    font-size: 2.5rem;
+    color: #2b6cb0;
+    letter-spacing: 2px;
+}
+
+.splash-logo p {
+    color: #718096;
+    font-size: 1rem;
+}
+
+/* アプリ全体のレイアウト */
+.app-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    min-height: 100vh;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #2b6cb0;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+    flex: 1;
+}
+
+/* 2. 角度表示エリア */
+.angle-display-section {
+    text-align: center;
+    background-color: #edf2f7;
+    padding: 25px 10px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.angle-box {
+    font-weight: bold;
+    color: #1a202c;
+}
+
+#current-angle {
+    font-size: 6.5rem; /* 老眼でも絶対に見える超巨大文字 */
+    line-height: 1;
+}
+
+.degree-unit {
+    font-size: 3rem;
+    vertical-align: super;
+}
+
+.mode-badge {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #2b6cb0;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* ボタンの基本スタイル（UDデザイン：大きくてタップしやすい） */
+.control-section {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.btn {
+    flex: 1;
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding: 18px 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: background-color 0.2s;
+}
+
+.btn:disabled {
+    background-color: #cbd5e0 !important;
+    color: #718096;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn-primary { background-color: #3182ce; color: white; }
+.btn-success { background-color: #38a169; color: white; }
+.btn-secondary { background-color: #4a5568; color: white; width: 100%; margin-top: 10px; padding: 12px; font-size: 1.1rem; }
+
+/* 3. セレクトボックス・ナビゲーション */
+.navi-section, .history-section {
+    margin-bottom: 25px;
+}
+
+h3 {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin-bottom: 10px;
+}
+
+.select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.form-select {
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 14px;
+    border: 2px solid #cbd5e0;
+    border-radius: 8px;
+    background-color: white;
+}
+
+/* 学会基準の表記エリア */
+.info-box {
+    background-color: #fffaf0;
+    border-left: 5px solid #dd6b20;
+    padding: 15px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 15px;
+}
+
+.info-box h4 {
+    color: #dd6b20;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #feebc8;
+    padding-bottom: 5px;
+}
+
+.info-box p {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+/* かみくだきヘルプ */
+.btn-help-trigger {
+    background: none;
+    border: none;
+    color: #3182ce;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 5px 0;
+    text-decoration: underline;
+}
+
+.help-content {
+    margin-top: 10px;
+    padding: 12px;
+    background-color: #ebf8ff;
+    border-radius: 6px;
+    border: 1px solid #bee3f8;
+    font-size: 1rem;
+    color: #2b6cb0;
+}
+
+/* 4. 履歴テーブル */
+.table-wrapper {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background-color: #f7fafc;
+    color: #4a5568;
+    position: sticky;
+    top: 0;
+}
+
+.empty-message {
+    text-align: center;
+    color: #a0aec0;
+    padding: 20px 0;
+}
+
+/* 5. チュートリアルモーダル */
+.modal-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    width: 90%; max-width: 450px;
+    padding: 25px; border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.modal-content h3 { font-size: 1.4rem; color: #2b6cb0; margin-bottom: 15px; }
+.modal-content p { font-size: 1.05rem; margin-bottom: 15px; }
+.modal-content ol { margin-left: 20px; margin-bottom: 20px; font-size: 1rem; }
+.modal-content li { margin-bottom: 8px; }
+
+/* 共通の非表示クラス */
+.hidden { display: none !important; }
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #f7fafc;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: #718096;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
